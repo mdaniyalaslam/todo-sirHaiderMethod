@@ -7,30 +7,28 @@ class Home extends Component {
     constructor(props){
         super(props)
         this.state={
-            inputTxt:""
+            todoInput:""
         }
     }
     _onChangeHandler(ev){
         this.setState({
             [ev.target.name]:ev.target.value
-            
+ 
         })
         // console.log(ev.target.value)
     }
 
-    _changeData(){
+    _addTodo(){
         console.log('event called');
-        this.props.changeUserNameToReducer(this.state.inputTxt);
+        this.props.changeUserNameToReducer(this.state.todoInput);
     }
 
     render() {
         return (
             <div>
                 <h1>Hello World {this.props.userName}</h1>
-                <input type="text" name="inputTxt" value={this.state.inputTxt} onChange={this._onChangeHandler.bind(this)}/>
-                <button onClick={this._changeData.bind(this)}>Change</button>
-
-                <Link to='/about'>Go to About</Link>
+                <input type="text" name="todoInput" value={this.state.todoInput} onChange={this._onChangeHandler.bind(this)}/>
+                <button onClick={this._addTodo.bind(this)}>Add</button>
             </div>
         )
     }
