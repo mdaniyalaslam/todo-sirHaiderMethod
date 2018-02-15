@@ -1,7 +1,24 @@
 
 import ActionTypes from '../constant/constant';
+import *as firebase from 'firebase';
 
-export function changeUserName(name){
-    return dispatch => dispatch({type: ActionTypes.USERNAME, payload: name})
+ // Initialize Firebase
+ var config = {
+    apiKey: "AIzaSyAkhH4uLWHVBCVd5wtIvK6l6p9BLTZXBLs",
+    authDomain: "todo-app-2411f.firebaseapp.com",
+    databaseURL: "https://todo-app-2411f.firebaseio.com",
+    projectId: "todo-app-2411f",
+    storageBucket: "todo-app-2411f.appspot.com",
+    messagingSenderId: "213722828277"
+  };
+  firebase.initializeApp(config);
+
+
+
+export function addTodoAction(allTodos){
+    // console.log('action',allTodos)
     
+    return dispatch => {
+            dispatch({type: ActionTypes.ADDTODO, payload: allTodos})
+    }
 }

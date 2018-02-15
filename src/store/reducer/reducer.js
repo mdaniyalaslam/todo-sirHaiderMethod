@@ -1,7 +1,8 @@
 import ActionTypes from '../constant/constant';
 
 const INITIAL_STATE = {
-    userName: ''
+    userName: '',
+    todos : []
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -10,6 +11,12 @@ export default (state = INITIAL_STATE, action) => {
             return ({
                 ...state,
                 userName: action.payload
+            })
+        case ActionTypes.ADDTODO:
+            return({
+                ...state,
+                todos:action.payload
+
             })
         default:
             return state;
