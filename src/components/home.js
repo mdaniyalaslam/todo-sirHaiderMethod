@@ -66,26 +66,37 @@ class Home extends Component {
 
 
                     <br />
-                    {/* {console.log(this.props.stateTodos)} */}
+                    {/* {console.log('state', this.props.stateTodos)} */}
                     {
                         (this.state.flag) ? (
-                            <ul className="list-group">
-                                <li>
-                                    <table>
-                                        <tr>
-                                            <td></td>
-                                            <td><button>Edit</button></td>
-                                            <td><button>Delete</button></td>
-                                        </tr>
-                                    </table>
-                                </li>
+                            
+                            <ul className="">
+                                {
+                                //     this.props.stateTodos.map((val, ind) => {
+                                //         return (
+                                //             <li>
+                                //                 <table>
+                                //                     <tr>
+                                //                         <td>{}</td>
+                                //                         <td><button>Edit</button></td>
+                                //                         <td><button>Delete</button></td>
+                                //                     </tr>
+                                //                 </table>
+                                //             </li>
+                                //         )
+                                //     })
+                                }
+
+
                             </ul>
                         )
                             :
                             (
-                                <RaisedButton label="cancel" onClick={this._addTodo.bind(this)} style={btnStyle} />
+                                console.log('check')
+                                
+                                // <RaisedButton label="cancel" onClick={this._addTodo.bind(this)} style={btnStyle} />
 
-                        )
+                            )
 
                     }
 
