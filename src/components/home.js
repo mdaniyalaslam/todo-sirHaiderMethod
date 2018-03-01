@@ -29,11 +29,11 @@ class Home extends Component {
             flag: false
         }
         //firebase
+        let allTodos = [];
         firebase.database().ref('/reduxTodos').on('child_added', (snap) => {
             let firebaseTodo = {}
             firebaseTodo.todo = snap.val();
             firebaseTodo.key = snap.key;
-            let allTodos = [];
             allTodos.push(firebaseTodo)
             this.props.addTodoToState(allTodos)
         })
@@ -66,29 +66,35 @@ class Home extends Component {
 
 
                     <br />
-                    {/* {console.log('state', this.props.stateTodos)} */}
-                    {
-                        (this.state.flag) ? (
-                            
-                            <ul className="">
-                                {
-                                //     this.props.stateTodos.map((val, ind) => {
-                                //         return (
-                                //             <li>
-                                //                 <table>
-                                //                     <tr>
-                                //                         <td>{}</td>
-                                //                         <td><button>Edit</button></td>
-                                //                         <td><button>Delete</button></td>
-                                //                     </tr>
-                                //                 </table>
-                                //             </li>
-                                //         )
-                                //     })
-                                }
+                    {console.log('state', this.props.stateTodos)}
+
+                       <ul>
+                            {
+                                this.props.stateTodos.map((val, ind) => {
+                                    console.log('map',val)
+                                    return (
+                                        <li key={ind}>
+                                            <table>
+                                                <tbody>
+                                                <tr>
+                                                    <td>{val.todo}</td>
+                                                    <td><button>Edit</button></td>
+                                                    <td><button>Delete</button></td>
+                                                </tr>
+                                                </tbody>    
+                                            </table>
+                                        </li>
+                                    )
+                                })
+                            }
 
 
                             </ul>
+
+                    {/* {
+                        (this.state.flag) ? (
+                            
+                         
                         )
                             :
                             (
@@ -98,7 +104,7 @@ class Home extends Component {
 
                             )
 
-                    }
+                    } */}
 
 
                 </div>
