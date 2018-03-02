@@ -37,6 +37,7 @@ class Home extends Component {
             allTodos.push(firebaseTodo)
             this.props.addTodoToState(allTodos)
         })
+        console.log('cons')
     }
     _onChangeHandler(ev) {
         this.setState({
@@ -53,6 +54,10 @@ class Home extends Component {
             firebase.database().ref('/').child('reduxTodos').push(inputValue);
         }
     }
+    _deleteTodo(val){
+        console.log('delete', val.key)
+        firebase.database().ref('/').child('rduxTodos').remove(val.key)
+    }
     render() {
         console.log('render')
         return (
@@ -68,45 +73,28 @@ class Home extends Component {
                     <br />
                     {console.log('state', this.props.stateTodos)}
 
-                       <ul>
-                            {
-                                this.props.stateTodos.map((val, ind) => {
-                                    console.log('map',val)
-                                    return (
-                                        <li key={ind}>
-                                            <table>
-                                                <tbody>
+                    <ul>
+                        {
+                            this.props.stateTodos.map((val, ind) => {
+                                console.log('map', val)
+                                return (
+                                    <li key={ind}>
+                                        <table>
+                                            <tbody>
                                                 <tr>
-                                                    <td>{val.todo}</td>
-                                                    <td><button>Edit</button></td>
-                                                    <td><button>Delete</button></td>
+                                                    <td>{ind + val.todo}</td>
+                                                    <td><RaisedButton label="Edit" primary={true} onClick={this._deleteTodo.bind(this)} style={btnStyle} /></td>
+                                                    <td><RaisedButton label="Delete" secondary={true} onClick={this._deleteTodo.bind(this, val)} style={btnStyle} /></td>
                                                 </tr>
-                                                </tbody>    
-                                            </table>
-                                        </li>
-                                    )
-                                })
-                            }
+                                            </tbody>
+                                        </table>
+                                    </li>
+                                )
+                            })
+                        }
 
 
-                            </ul>
-
-                    {/* {
-                        (this.state.flag) ? (
-                            
-                         
-                        )
-                            :
-                            (
-                                console.log('check')
-                                
-                                // <RaisedButton label="cancel" onClick={this._addTodo.bind(this)} style={btnStyle} />
-
-                            )
-
-                    } */}
-
-
+                    </ul>
                 </div>
 
             </div>
