@@ -82,7 +82,7 @@ class Home extends Component {
                                         <table>
                                             <tbody>
                                                 <tr>
-                                                    <td>{ind + val.todo}</td>
+                                                    <td>{val.todo}</td>
                                                     <td><RaisedButton label="Edit" primary={true} onClick={this._deleteTodo.bind(this)} style={btnStyle} /></td>
                                                     <td><RaisedButton label="Delete" secondary={true} onClick={this._deleteTodo.bind(this, val)} style={btnStyle} /></td>
                                                 </tr>
