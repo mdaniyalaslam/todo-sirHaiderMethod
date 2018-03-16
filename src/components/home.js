@@ -29,6 +29,11 @@ class Home extends Component {
             flag: false
         }
         //firebase
+        console.log('cons')
+
+    }
+    componentWillMount(){
+        console.log('will')
         let allTodos = [];
         firebase.database().ref('/reduxTodos').on('child_added', (snap) => {
             let firebaseTodo = {}
@@ -37,7 +42,6 @@ class Home extends Component {
             allTodos.push(firebaseTodo)
             this.props.addTodoToState(allTodos)
         })
-        console.log('cons')
     }
     _onChangeHandler(ev) {
         this.setState({
@@ -54,7 +58,7 @@ class Home extends Component {
             firebase.database().ref('/').child('reduxTodos').push(inputValue);
         }
     }
-    _deleteTodo(val){
+    _deleteTodo(val) {
         console.log('delete', val.key)
         firebase.database().ref('/').child('rduxTodos').remove(val.key)
     }
@@ -71,7 +75,7 @@ class Home extends Component {
 
 
                     <br />
-                    {console.log('state', this.props.stateTodos)}
+                    {console.log('coming state', this.props.stateTodos)}
 
                     <ul>
                         {
@@ -79,17 +83,10 @@ class Home extends Component {
                                 console.log('map', val)
                                 return (
                                     <li key={ind}>
-                                        <table>
-                                            <tbody>
-                                                <tr>
-                                                    <td>{val.todo}</td>
-                                                    <td><RaisedButton label="Edit" primary={true} onClick={this._deleteTodo.bind(this)} style={btnStyle} /></td>
-                                                    <td><RaisedButton label="Delete" secondary={true} onClick={this._deleteTodo.bind(this, val)} style={btnStyle} /></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                    {val.todo}
                                     </li>
                                 )
+
                             })
                         }
 
