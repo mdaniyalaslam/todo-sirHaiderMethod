@@ -13,7 +13,9 @@ import *as firebase from 'firebase';
   };
   firebase.initializeApp(config);
 
-
+export function fetchingDataAction(){
+  
+}
 
 export function addTodoAction(allTodos){
     // console.log('action',allTodos)
