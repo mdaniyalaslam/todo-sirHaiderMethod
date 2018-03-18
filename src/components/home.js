@@ -32,7 +32,7 @@ class Home extends Component {
         console.log('cons')
 
     }
-    componentWillMount(){
+    componentWillMount() {
         console.log('will')
         let allTodos = [];
         firebase.database().ref('/reduxTodos').on('child_added', (snap) => {
@@ -58,9 +58,9 @@ class Home extends Component {
             firebase.database().ref('/').child('reduxTodos').push(inputValue);
         }
     }
-    _deleteTodo(val) {
-        console.log('delete', val.key)
-        firebase.database().ref('/').child('rduxTodos').remove(val.key)
+    _deleteTodo(item) {
+        console.log('delete', item.target.key)
+        // firebase.database().ref('/').child('rduxTodos').remove(val.key)
     }
     render() {
         console.log('render')
@@ -80,11 +80,16 @@ class Home extends Component {
                     <ul>
                         {
                             this.props.stateTodos.map((val, ind) => {
-                                console.log('map', val)
+                                // console.log('map', val)
                                 return (
+                                  
                                     <li key={ind}>
-                                    {val.todo}
+                                        {val.todo}
+                                        <RaisedButton label="Edit"  style={btnStyle} />
+                                        <RaisedButton label="Delete" onClick={this._deleteTodo.bind(this)} style={btnStyle} />
+
                                     </li>
+                                
                                 )
 
                             })
