@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import *as firebase from 'firebase';
-import { addTodoAction } from '../store/action/action';
+import { addTodoAction, deleteTodoAction } from '../store/action/action';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -56,10 +56,11 @@ class Home extends Component {
         else {
             let inputValue = this.state.todoInput
             firebase.database().ref('/').child('reduxTodos').push(inputValue);
+            this.setState({todoInput:''})
         }
     }
     _deleteTodo(item) {
-        console.log('delete', item.target.key)
+        console.log('delete', item.target.parentNode.parentNode.id)
         // firebase.database().ref('/').child('rduxTodos').remove(val.key)
     }
     render() {
@@ -79,11 +80,11 @@ class Home extends Component {
 
                     <ul>
                         {
-                            this.props.stateTodos.map((val, ind) => {
-                                // console.log('map', val)
+                            this.props.stateTodos.map((val) => {
+                                console.log('map', val)
                                 return (
                                   
-                                    <li key={ind}>
+                                    <li id={val}>
                                         {val.todo}
                                         <RaisedButton label="Edit"  style={btnStyle} />
                                         <RaisedButton label="Delete" onClick={this._deleteTodo.bind(this)} style={btnStyle} />

@@ -1,6 +1,7 @@
  const ActionTypes = {
     USERNAME:'USERNAME',
-    ADDTODO: 'ADDTODO'
+    ADDTODO: 'ADDTODO',
+    DELETETODO: 'DELETETODO'
 }
 
 export default ActionTypes;

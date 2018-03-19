@@ -24,3 +24,8 @@ export function addTodoAction(allTodos){
             dispatch({type: ActionTypes.ADDTODO, payload: allTodos})
     }
 }
+// export function deleteTodoAction(){
+//   return dispatch => {
+//     dispatch({type: ActionTypes.DELETETODO, payload: allTodos})
+//   }
+// }
