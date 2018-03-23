@@ -17,15 +17,23 @@ export function fetchingDataAction(){
   
 }
 
-export function addTodoAction(allTodos){
+export function addTodoAction(){
     // console.log('action',allTodos)
     
     return dispatch => {
+      let allTodos = [];
+        firebase.database().ref('/reduxTodos').on('child_added', (snap) => {
+            let firebaseTodo = {}
+            firebaseTodo.todo = snap.val();
+            firebaseTodo.key = snap.key;
+            allTodos.push(firebaseTodo)
             dispatch({type: ActionTypes.ADDTODO, payload: allTodos})
+        })
     }
 }
-// export function deleteTodoAction(){
-//   return dispatch => {
-//     dispatch({type: ActionTypes.DELETETODO, payload: allTodos})
-//   }
-// }
+export function deleteTodoAction(id){
+  return dispatch => {
+    firebase.database().ref(`/reduxTodos/${id}`).remove();
+
+  }
+}

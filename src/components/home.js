@@ -32,16 +32,9 @@ class Home extends Component {
         console.log('cons')
 
     }
-    componentWillMount() {
-        console.log('will')
-        let allTodos = [];
-        firebase.database().ref('/reduxTodos').on('child_added', (snap) => {
-            let firebaseTodo = {}
-            firebaseTodo.todo = snap.val();
-            firebaseTodo.key = snap.key;
-            allTodos.push(firebaseTodo)
-            this.props.addTodoToState(allTodos)
-        })
+    componentDidMount() {
+        console.log('did')
+        this.props.addTodoToState()
     }
     _onChangeHandler(ev) {
         this.setState({
@@ -59,9 +52,10 @@ class Home extends Component {
             this.setState({todoInput:''})
         }
     }
-    _deleteTodo(item) {
-        console.log('delete', item.target.parentNode.parentNode.id)
-        // firebase.database().ref('/').child('rduxTodos').remove(val.key)
+    _deleteTodo(id) {
+        // console.log('delete', id)
+        this.props.deleteTodoAction(id)
+        this.props.addTodoToState();
     }
     render() {
         console.log('render')
@@ -83,18 +77,17 @@ class Home extends Component {
                             this.props.stateTodos.map((val) => {
                                 console.log('map', val)
                                 return (
-                                  
-                                    <li id={val}>
+                                    <li id={val.key}>
                                         {val.todo}
                                         <RaisedButton label="Edit"  style={btnStyle} />
-                                        <RaisedButton label="Delete" onClick={this._deleteTodo.bind(this)} style={btnStyle} />
+                                        <RaisedButton label="Delete" onClick={this._deleteTodo.bind(this, val.key)} style={btnStyle} />
 
                                     </li>
-                                
                                 )
-
                             })
                         }
+
+
 
 
                     </ul>
@@ -116,8 +109,11 @@ function mapStateToProp(state) {
 function mapDispatchToProp(dispatch) {
     return ({
 
-        addTodoToState: (allTodos) => {
-            dispatch(addTodoAction(allTodos))
+        addTodoToState: () => {
+            dispatch(addTodoAction())
+        },
+        deleteTodoToState: (id) => {
+            dispatch(deleteTodoAction(id))
         }
     })
 }
