@@ -32,8 +32,9 @@ export function addTodoAction(){
     }
 }
 export function deleteTodoAction(id){
+  // console.log('action work')
   return dispatch => {
-    firebase.database().ref(`/reduxTodos/${id}`).remove();
-
-  }
+  firebase.database().ref(`/reduxTodos/${id}`).remove();
+  
+}
 }
