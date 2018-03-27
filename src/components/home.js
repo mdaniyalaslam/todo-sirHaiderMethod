@@ -8,7 +8,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
 
-//style
+// style
 // const paperStyle = {
 //     height: 100,
 //     width: 500,
@@ -30,10 +30,11 @@ class Home extends Component {
             todoId: ''
         }
         //firebase
-        // console.log('cons')
+        console.log('cons')
 
     }
     componentDidMount() {
+        console.log('did')
         this.props.addTodoToState()
     }
     _onChangeHandler(ev) {
@@ -57,9 +58,11 @@ class Home extends Component {
         this.props.deleteTodoToState(id)
         this.props.addTodoToState();
     }
-    _editTodo(id){
-        console.log('edit works', id)
-        this.setState({isEdit:true, todoId:id})
+    _editTodo(val){
+        console.log('edit works', val.key)
+        val.isEdit = true;
+
+        // this.setState({isEdit:true, todoId:id})
     }
     _editTodoDone(id){
         // console.log('edit works')
@@ -78,7 +81,7 @@ class Home extends Component {
 
 
                     <br />
-                    {/* {console.log('coming state', this.props.stateTodos)} */}
+                    {console.log('coming state', this.props.stateTodos)}
 
                     <ul>
                         {
@@ -96,7 +99,7 @@ class Home extends Component {
                                         />
                                         <RaisedButton label="Done"  style={btnStyle} primary={true} onClick={this._editTodoDone.bind(this, val.key)} />
                                         <RaisedButton label="Cancel" onClick={()=>{this.setState({isEdit:false})}} style={btnStyle} secondary={true}/>
-                                    </li>
+                                        </li>
                                      )
                                      :
                                      (
@@ -107,9 +110,9 @@ class Home extends Component {
                                             value = {val.todo}
                                             disabled
                                         />
-                                        <RaisedButton label="Edit"  style={btnStyle} primary={true} onClick={this._editTodo.bind(this, val.key)} />
+                                        <RaisedButton label="Edit"  style={btnStyle} primary={true} onClick={this._editTodo.bind(this, val)} />
                                         <RaisedButton label="Delete" onClick={this._deleteTodo.bind(this, val.key)} style={btnStyle} secondary={true}/>
-                                    </li>
+                                        </li>
                                      )
                                      
                                     

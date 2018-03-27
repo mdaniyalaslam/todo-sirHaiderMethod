@@ -26,6 +26,7 @@ export function addTodoAction(){
             let firebaseTodo = {}
             firebaseTodo.todo = snap.val();
             firebaseTodo.key = snap.key;
+            firebaseTodo.isEdit = false;
             allTodos.push(firebaseTodo)
             dispatch({type: ActionTypes.ADDTODO, payload: allTodos})
         })
