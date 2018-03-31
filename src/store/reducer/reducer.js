@@ -2,7 +2,7 @@ import ActionTypes from '../constant/constant';
 
 const INITIAL_STATE = {
     userName: '',
-    todos : []
+    todos: []
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -12,11 +12,20 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 userName: action.payload
             })
+        /////////////
         case ActionTypes.ADDTODO:
+            // console.log('reducer', state.todos)
+            return ({
+                ...state,
+                todos: action.payload
+            })
+        ///////////////
+        case ActionTypes.EDITTODO:
+        state.todos[action.index].isEdit = true  
+        // console.log('edittodo', state.todos)
             return({
                 ...state,
-                todos:action.payload
-
+                todos:state.todos.concat()
             })
         default:
             return state;

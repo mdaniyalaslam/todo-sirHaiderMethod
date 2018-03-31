@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import *as firebase from 'firebase';
-import { addTodoAction, deleteTodoAction } from '../store/action/action';
+import { addTodoAction, deleteTodoAction, editTodoAction } from '../store/action/action';
 // import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -26,6 +26,7 @@ class Home extends Component {
         super(props)
         this.state = {
             todoInput: "",
+            editInput: "",
             isEdit: false,
             todoId: ''
         }
@@ -49,7 +50,7 @@ class Home extends Component {
         else {
             let inputValue = this.state.todoInput
             firebase.database().ref('/').child('reduxTodos').push(inputValue);
-            this.setState({todoInput:''})
+            this.setState({ todoInput: '' })
         }
     }
     _deleteTodo(id) {
@@ -57,13 +58,14 @@ class Home extends Component {
         this.props.deleteTodoToState(id)
         this.props.addTodoToState();
     }
-    _editTodo(id){
-        console.log('edit works', id)
-        this.setState({isEdit:true, todoId:id})
+    _editTodo(id, ind) {
+        // console.log('edit works', id, ind)
+        // this.setState({ isEdit: true, todoId: id })
+        this.props.editTodoToState(id, ind)
     }
-    _editTodoDone(id){
+    _editTodoDone(id) {
         // console.log('edit works')
-        this.setState({isEdit:false})
+        this.setState({ isEdit: false })
     }
     render() {
         // console.log('render')
@@ -73,47 +75,65 @@ class Home extends Component {
 
                     <br />
                     <h2>Create Your Tasks Here {this.props.userName}</h2> <br />
-                    <TextField floatingLabelText="Todo" hintText="Enter Todo Here" name="todoInput" value={this.state.todoInput} onChange={this._onChangeHandler.bind(this)} />
+                    <TextField floatingLabelText="Todo" hintText="Enter Todo Here" name="todoInput" 
+                    value={this.state.todoInput} onChange={this._onChangeHandler.bind(this)} 
+                    />
                     <RaisedButton label="Add" onClick={this._addTodo.bind(this)} style={btnStyle} />
 
 
                     <br />
-                    {/* {console.log('coming state', this.props.stateTodos)} */}
+                    {console.log('coming state', this.props.stateTodos)}
 
                     <ul>
                         {
-                            this.props.stateTodos.map((val) => {
+                            this.props.stateTodos.map((val, ind) => {
                                 // console.log('map', val)
                                 return (
-                                    (this.state.isEdit)?
+                                    <div index={ind}>
 
-                                    (
-                                        <li id={val.key}>
-                                        {/* {val.todo} */}
-                                        <TextField
-                                            hintText="Hint Text"
-                                            value = {val.todo}
-                                        />
-                                        <RaisedButton label="Done"  style={btnStyle} primary={true} onClick={this._editTodoDone.bind(this, val.key)} />
-                                        <RaisedButton label="Cancel" onClick={()=>{this.setState({isEdit:false})}} style={btnStyle} secondary={true}/>
-                                    </li>
-                                     )
-                                     :
-                                     (
-                                        <li id={val.key}>
-                                        {/* {val.todo} */}
-                                        <TextField
-                                            hintText="Hint Text"
-                                            value = {val.todo}
-                                            disabled
-                                        />
-                                        <RaisedButton label="Edit"  style={btnStyle} primary={true} onClick={this._editTodo.bind(this, val.key)} />
-                                        <RaisedButton label="Delete" onClick={this._deleteTodo.bind(this, val.key)} style={btnStyle} secondary={true}/>
-                                    </li>
-                                     )
-                                     
-                                    
-                                    
+                                        {
+                                            (val.isEdit) ?
+
+                                                (
+                                                    <li id={val.key} index = {ind}>
+                                                        {/* {val.todo} */}
+                                                        <TextField
+                                                            floatingLabelText={val.todo}
+                                                            hintText={val.todo}
+                                                            name="editInput"
+                                                            value={this.state.editInput}
+                                                            onChange={this._onChangeHandler.bind(this)}
+                                                        />
+                                                        <RaisedButton label="Done"
+                                                            style={btnStyle} primary={true}
+                                                            onClick={this._editTodoDone.bind(this, val.key, ind)}
+                                                        />
+                                                        <RaisedButton label="Cancel"
+                                                            onClick={() => { this.setState({ isEdit: false }) }}
+                                                            style={btnStyle} secondary={true} />
+                                                    </li>
+                                                )
+                                                :
+                                                (
+                                                    <li id={val.key} index = {ind}>
+                                                        {/* {val.todo} */}
+                                                        <TextField
+                                                            floatingLabelText=' '
+                                                            hintText="Hint Text"
+                                                            value={val.todo}
+                                                            disabled
+                                                        />
+                                                        <RaisedButton label="Edit" style={btnStyle} primary={true}
+                                                            onClick={this._editTodo.bind(this, val.key, ind )}
+                                                        />
+                                                        <RaisedButton label="Delete" style={btnStyle} secondary={true}
+                                                            onClick={this._deleteTodo.bind(this, val.key, ind)} />
+                                                    </li>
+                                                )
+                                        }
+
+                                    </div>
+
                                 )
                             })
                         }
@@ -133,12 +153,9 @@ function mapStateToProp(state) {
 function mapDispatchToProp(dispatch) {
     return ({
 
-        addTodoToState: () => {
-            dispatch(addTodoAction())
-        },
-        deleteTodoToState: (id) => {
-            dispatch(deleteTodoAction(id))
-        }
+        addTodoToState: () => { dispatch(addTodoAction()) },
+        deleteTodoToState: (id) => { dispatch(deleteTodoAction(id)) },
+        editTodoToState: (id, ind) => { dispatch(editTodoAction(id, ind)) },
     })
 }
 
