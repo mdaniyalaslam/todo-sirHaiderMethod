@@ -8,7 +8,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
 
-//style
+// style
 // const paperStyle = {
 //     height: 100,
 //     width: 500,
@@ -31,10 +31,11 @@ class Home extends Component {
             todoId: ''
         }
         //firebase
-        // console.log('cons')
+        console.log('cons')
 
     }
     componentDidMount() {
+        console.log('did')
         this.props.addTodoToState()
     }
     _onChangeHandler(ev) {
