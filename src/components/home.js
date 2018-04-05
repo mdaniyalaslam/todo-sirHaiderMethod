@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import *as firebase from 'firebase';
-import { addTodoAction, deleteTodoAction, editTodoAction } from '../store/action/action';
+import { addTodoAction, deleteTodoAction, editTodoAction, editTodoDoneAction } from '../store/action/action';
 // import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -64,9 +64,10 @@ class Home extends Component {
         // this.setState({ isEdit: true, todoId: id })
         this.props.editTodoToState(id, ind)
     }
-    _editTodoDone(id) {
-        // console.log('edit works')
-        this.setState({ isEdit: false })
+    _editTodoDone(id, ind, value) {
+        console.log('edit works', id, ind, value)
+        this.props.editTodoDoneToState(id, ind, value)
+
     }
     render() {
         // console.log('render')
@@ -107,7 +108,7 @@ class Home extends Component {
                                                         />
                                                         <RaisedButton label="Done"
                                                             style={btnStyle} primary={true}
-                                                            onClick={this._editTodoDone.bind(this, val.key, ind)}
+                                                            onClick={this._editTodoDone.bind(this, val.key, ind, this.state.editInput)}
                                                         />
                                                         <RaisedButton label="Cancel"
                                                             onClick={() => { this.setState({ isEdit: false }) }}
@@ -128,7 +129,8 @@ class Home extends Component {
                                                             onClick={this._editTodo.bind(this, val.key, ind )}
                                                         />
                                                         <RaisedButton label="Delete" style={btnStyle} secondary={true}
-                                                            onClick={this._deleteTodo.bind(this, val.key, ind)} />
+                                                            onClick={this._deleteTodo.bind(this, val.key, ind)} 
+                                                        />
                                                     </li>
                                                 )
                                         }
@@ -157,6 +159,7 @@ function mapDispatchToProp(dispatch) {
         addTodoToState: () => { dispatch(addTodoAction()) },
         deleteTodoToState: (id) => { dispatch(deleteTodoAction(id)) },
         editTodoToState: (id, ind) => { dispatch(editTodoAction(id, ind)) },
+        editTodoDoneToState: (id, ind, value) => { dispatch(editTodoDoneAction(id, ind)) },
     })
 }
 

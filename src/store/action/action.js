@@ -44,3 +44,12 @@ export function editTodoAction(id, ind) {
     dispatch({type: ActionTypes.EDITTODO, index: ind})
   }
 }
+
+export function editTodoDoneAction(id, ind, value) {
+  return dispatch => {
+    console.log('done action works',id, ind, value)
+    // firebase.database.ref(`/reduxTodos/ ${id}`).update()
+    
+    // dispatch({type: ActionTypes.EDITTODODONE, index: ind})
+  }
+}
